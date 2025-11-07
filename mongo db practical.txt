@@ -1,0 +1,44 @@
+Step1 : mongosh
+Step 2 : use studentDB
+Step 3: db.students.insertMany([
+  { roll: 1, name: "Amit", marks: 85, city: "Nashik" },
+  { roll: 2, name: "Riya", marks: 92, city: "Pune" },
+  { roll: 3, name: "Sohan", marks: 76, city: "Mumbai" },
+  { roll: 4, name: "Meena", marks: 89, city: "Nashik" },
+  { roll: 5, name: "Raj", marks: 60, city: "Pune" }
+])
+Step 4: 
+a) View all records
+db.students.find()
+b) View nicely formatted records
+db.students.find().pretty()
+c) Show only name and marks
+db.students.find({}, { _id: 0, name: 1, marks: 1 })
+step 5:
+a) $and → Students from Nashik AND marks > 80
+db.students.find({ $and: [ { city: "Nashik" }, { marks: { $gt: 80 } } ] })
+b) $or → Students from Pune OR marks < 80
+db.students.find({ $or: [ { city: "Pune" }, { marks: { $lt: 80 } } ] })
+c) $gt, $lt, $gte, $lte
+db.students.find({ marks: { $gt: 85 } })   // marks greater than 85
+db.students.find({ marks: { $lt: 80 } })   // marks less than 80
+
+Step 6: Update Data (U = Update)
+a) Update one student’s marks
+db.students.updateOne(
+  { name: "Amit" },
+  { $set: { marks: 95 } }
+)
+b) Add +5 marks to students with marks < 80
+db.students.updateMany(
+  { marks: { $lt: 80 } },
+  { $inc: { marks: 5 } }
+)
+Step 8: Delete Data (D = Delete)
+a) Delete one student
+db.students.deleteOne({ name: "Raj" })
+b) Delete all students from Mumbai
+db.students.deleteMany({ city: "Mumbai" })
+
+🔹 Step 9: Display Final Data
+db.students.find()
